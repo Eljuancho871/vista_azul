@@ -14,7 +14,7 @@ router.post("/", async(req, res) => {
     const { datoRecibido, tipo } = req.body
     let data
 
-    switch (tipo.toLowerCase()) {
+    switch (tipo) {
         case "cedula":
             
             data = await Model.find({ "cedula" : datoRecibido.toLowerCase() }).sort({$natural:-1})
