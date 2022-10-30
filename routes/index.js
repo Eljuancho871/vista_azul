@@ -12,12 +12,9 @@ router.post("/add", async(req, res) => {
    let data = await Model.find()
    body.id = data.length + 1
 
-   const { cedula, motivo, fechaIngreso, horaEntrada, id } = req.body;
-   let nombre = toString().req.body.nombre
-   let apellido = toString().req.body.apellido
-   let oficina = toString().req.body.oficina
-   
-   const user = new Model({ nombre, apellido, cedula, oficina, motivo, fechaIngreso, horaEntrada, id });
+   const { nombre, apellido, cedula, oficina, motivo, fechaIngreso, horaEntrada, id } = req.body;
+
+   const user = new Model({ nombre: toString().nombre, apellido: toString().apellido, cedula, oficina: toString().oficina, motivo: toString().motivo, fechaIngreso, horaEntrada, id });
    await user.save();
   
    res.render("registrar", { exito: true })
