@@ -129,7 +129,7 @@ const cedulaBuscar = () => {
   let cedula = document.getElementById("cedula")
   let formCedula = document.getElementById("formCedula")
   
-  fetch('http://localhost:3000/consultar/datos')
+  fetch('https://vistazul.vercel.app/consultar/datos')
   .then(response => response.json())
   .then(data => {
 
