@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="consultar.css">
+    <script src="https://kit.fontawesome.com/1918120b2b.js" crossorigin="anonymous"></script>
+    <title>Vista Azul - Consultar</title>
+</head>
+<body>
+        <nav class="navMenu">
+            <a href="/registrar">Registrar</a>
+            <a href="/consultar">Consultar</a>
+            <a href="/excel">Descargar</a>
+          </nav>
+
+    <section class="sectionForm">
+        <h1 class="titleAdd">CONSULTAR DATOS</h1>
+        <div style="display: flex;justify-content: center;">
+            <form action="/consultar" method="post">
+              <div>
+                <select name="tipo" id="tipo" class="input">
+                  <option value="">Seleccionar</option>
+                  <option value="nombre">Nombre</option>
+                  <option value="apellido">Apellido</option>
+                  <option value="cedula">Cedula</option>
+                  <option value="oficina">Autorizacion</option>
+                  <option value="motivo">Motivo</option>
+                  <option value="fechaIngreso">Fecha Ingreso</option>
+                  <option value="horaEntrada">Hora Entrada</option>
+                </select>
+                <div class="cut cut-short" style="width: 80px;"></div>
+                  <label for="oficina" class="placeholder">Autorizado </label>
+              </div>
+                <div style="margin-top: 20px; display: flex; height: 45px;">
+                  <input class="input" required name="datoRecibido" id="search" type="search" style="border-radius: 12px 0px 0px 12px;" placeholder="Buscar..." autofocus required />
+                  <button style="cursor: pointer;border-radius: 0 12px 12px 0;border: none;width: 30px;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>  
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section style="margin-top: 50px;">
+        <% if (data != null) { %>
+         
+            <div class="container">
+                <table class="responsive-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Cedula</th>
+                      <th scope="col">Autorizacion</th>
+                      <th scope="col">Motivo</th>
+                      <th scope="col">fecha Ingreso</th>
+                      <th scope="col">Hora Entrada</th>
+                    </tr>
+                  </thead>
+            <% data.forEach(el => { %>
+         
+                      <tbody>
+                        <tr>
+                          <th scope="row"> <%= el.id %>  </th>
+                          <td data-title="Nombre"> <%= el.nombre %> </td>
+                          <td data-title="Apellido"><%= el.apellido %></td>
+                          <td data-title="Cedula"><%= el.cedula %></td>
+                          <td data-title="Piso"><%= el.oficina %></td>
+                          <td data-title="Motivo"><%= el.motivo %></td>
+                          <td data-title="Fecha Ingreso"><%= el.fechaIngreso %></td>
+                          <td data-title="Hora Entrada"><%= el.horaEntrada %></td>
+                        </tr>
+                      </tbody>
+                    
+                <% }) %>
+
+                </table>
+            </div>
+        <% } %>
+    </section>
+    <footer>
+      <p>Hecho por: Juan Diego Ramirez Mogotocoro</p>
+    </footer>
+</body>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .ic1 {
+    margin-top: 40px;
+  }
+  
+  .ic2 {
+    margin-top: 30px;
+  }
+  
+  footer{
+  padding: 5px;
+    background-color: #15172b;
+    color: rgb(221, 216, 216);
+    font-family: monospace;
+    font-size: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.input {
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+  }
+  
+  .cut {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 76px;
+  }
+  
+  .cut-short {
+    width: 90px;
+  }
+  
+  .input:focus ~ .cut,
+  .input:not(:placeholder-shown) ~ .cut {
+    transform: translateY(8px);
+  }
+  
+  .placeholder {
+    color: #65657b;
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+  }
+  
+  .input:focus ~ .placeholder,
+  .input:not(:placeholder-shown) ~ .placeholder {
+    transform: translateY(-30px) translateX(10px) scale(0.75);
+  }
+  
+  .input:not(:placeholder-shown) ~ .placeholder {
+    color: #808097;
+  }
+  
+  .input:focus ~ .placeholder {
+    color: #dc2f55;
+  }
+  
+  .submit {
+    background-color: #08d;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .submit:active {
+    background-color: #06b;
+  }
+
+label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+  select{
+    height: 25px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    align-content: center;
+  }
+.container *{
+    color: whitesmoke;
+}
+.row{
+    color: whitesmoke;
+}
+.container {
+  margin: 5% 3%;
+}
+@media (min-width: 48em) {
+  .container {
+    margin: 2%;
+  }
+}
+@media (min-width: 75em) {
+  .container {
+    margin: 2em auto;
+    max-width: 75em;
+  }
+}
+
+@media (max-width: 370px) {
+    
+    .navMenu {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    background: #15172b;
+}
+}
+
+.responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+  border-spacing: 0;
+}
+@media (min-width: 48em) {
+  .responsive-table {
+    font-size: 0.9em;
+  }
+}
+@media (min-width: 62em) {
+  .responsive-table {
+    font-size: 1em;
+  }
+}
+.responsive-table thead {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+@media (min-width: 48em) {
+  .responsive-table thead {
+    position: relative;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: auto;
+  }
+}
+.responsive-table thead th {
+    background-color: #15172b;
+    border: 1px solid #131420;
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+.responsive-table thead th:first-of-type {
+  text-align: left;
+}
+.responsive-table tbody,
+.responsive-table tr,
+.responsive-table th,
+.responsive-table td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+.responsive-table tbody td[data-title]:before {
+    content: attr(data-title);
+    float: left;
+    font-size: 0.8em;
+    color: rgb(255 255 255);
+}
+@media (min-width: 48em) {
+  .responsive-table tr {
+    display: table-row;
+  }
+}
+.responsive-table th,
+.responsive-table td {
+  padding: 0.5em;
+  vertical-align: middle;
+}
+@media (min-width: 30em) {
+  .responsive-table th,
+.responsive-table td {
+    padding: 0.75em 0.5em;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table th,
+.responsive-table td {
+    display: table-cell;
+    padding: 0.5em;
+  }
+}
+@media (min-width: 62em) {
+  .responsive-table th,
+.responsive-table td {
+    padding: 0.75em 0.5em;
+  }
+}
+@media (min-width: 75em) {
+  .responsive-table th,
+.responsive-table td {
+    padding: 0.75em;
+  }
+}
+.responsive-table caption {
+  margin-bottom: 1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+@media (min-width: 48em) {
+  .responsive-table caption {
+    font-size: 1.5em;
+  }
+}
+.responsive-table tfoot {
+  font-size: 0.8em;
+  font-style: italic;
+}
+@media (min-width: 62em) {
+  .responsive-table tfoot {
+    font-size: 0.9em;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody {
+    display: table-row-group;
+  }
+}
+.responsive-table tbody tr {
+  margin-bottom: 1em;
+}
+@media (min-width: 48em) {
+  .responsive-table tbody tr {
+    display: table-row;
+    border-width: 1px;
+  }
+}
+.responsive-table tbody tr:last-of-type {
+  margin-bottom: 0;
+}
+@media (min-width: 48em) {
+  .responsive-table tbody tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+}
+.responsive-table tbody th[scope=row] {
+  background-color: #15172b;
+  color: white;
+}
+@media (min-width: 30em) {
+  .responsive-table tbody th[scope=row] {
+    border-left: 1px solid #15172b;
+    border-bottom: 1px solid #15172b;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody th[scope=row] {
+    background-color: transparent;
+    color: whitesmoke;
+    text-align: left;
+  }
+}
+.responsive-table tbody td {
+  text-align: right;
+}
+@media (min-width: 48em) {
+  .responsive-table tbody td {
+    border-left: 1px solid #15172b;
+    border-bottom: 1px solid #15172b;
+    text-align: center;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody td:last-of-type {
+    border-right: 1px solid #15172b;
+  }
+}
+.responsive-table tbody td[data-type=currency] {
+  text-align: right;
+}
+.responsive-table tbody td[data-title]:before {
+  content: attr(data-title);
+  float: left;
+  font-size: 0.8em;
+  color: whitesmoke;
+}
+@media (min-width: 30em) {
+  .responsive-table tbody td[data-title]:before {
+    font-size: 0.9em;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody td[data-title]:before {
+    content: none;
+  }
+}
+@media (max-width: 330px) {
+  form {
+    width: 90%;
+}
+}
+</style>
+</html>

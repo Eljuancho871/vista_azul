@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Vista Azul - Registrar</title>
+</head>
+<body>
+        <nav class="navMenu">
+            <a href="/registrar">Registrar</a>
+            <a href="/consultar">Consultar</a>
+            <a href="/excel">Descargar</a>
+          </nav>
+
+    <section class="sectionForm">
+        <h1 class="titleAdd">REGISTRAR PERSONA</h1>
+        <div class="contenedorForm">
+            <form action="/registrar/add" method="post">
+                <div class="form">
+
+                  <div class="input-container ic2">
+                    <input required id="cedula" name="cedula" class="input" type="number" placeholder=" " onkeydown="cedulaBuscar();" />
+                    <div class="cut cut-short" style="width: 60px;"></div>
+                    <label for="cedula" class="placeholder">Cedula </label>
+                  </div>
+
+                    <div class="input-container ic1">
+                      <input required id="nombre" name="nombre" class="input" type="text" placeholder=" " />
+                      <div class="cut"></div>
+                      <label for="nombre" class="placeholder">Nombre</label>
+                    </div>
+    
+                    <div class="input-container ic2">
+                      <input required id="apellido" name="apellido" class="input" type="text" placeholder=" " />
+                      <div class="cut"></div>
+                      <label for="apellido" class="placeholder">Apellido</label>
+                    </div>
+
+                    <div class="input-container ic2" id="contenedorOficina">
+                      <select name="oficina" class="input" id="oficina" onchange="oficinaOtros();">
+                        <option value="">Seleccionar...</option>
+                        <option value="fomesalud">Fomesalud</option>
+                        <option value="imap">IMAP</option>
+                        <option value="neufrologos">Neufrologos</option>
+                        <option value="ecopetrol">Ecopetrol</option>
+                        <option value="cenpost">Cenpost</option>
+                        <option value="otros">Otros</option>
+                      </select>
+                      <div class="cut cut-short" style="width: 80px;"></div>
+                      <label for="oficina" class="placeholder">Autorizado </label>
+                    </div>
+    
+                      <div class="input-container ic2" id="contenedorMotivo" >
+                        <select name="motivo" id="motivo" class="input" onchange="oficinaMotivo();">
+                          <option value="">Seleccionar...</option>
+                          <option value="terapia">Terapia</option>
+                          <option value="consulta">Consulta</option>
+                          <option value="domicilio">Domicilio</option>
+                          <option value="otros">Otros</option>
+                        </select>
+                        <div class="cut cut-short"></div>
+                        <label for="motivo" class="placeholder">Motivo Visita</label>
+                      </div>
+    
+                    <button type="submit" class="submit">REGISTRAR</button>
+                  </div>
+            </form>
+        </div>
+    </section>
+    <% if (exito == true) { %>
+     
+        <div class="propSucees">
+          <h4>¡Guardado Exitosamente!</h4>
+        </div>
+    <% } %>
+
+    <footer>
+      <p>Hecho por: Juan Diego Ramirez Mogotocoro</p>
+    </footer>
+       
+</body>
+
+<script>
+
+  const oficinaOtros = (e) => {
+
+    let oficina = document.getElementById("oficina")
+    let contenedorOficina = document.getElementById("contenedorOficina")
+    let seleccionado = oficina.value
+
+    if(seleccionado == "otros"){
+
+      let html = `
+      
+        <input required id="oficina" name="oficina" class="input" type="text" placeholder=" " />
+        <div class="cut cut-short" style="width: 80px;"></div>
+        <label for="oficina" class="placeholder">Autorizado </label>
+      `
+      contenedorOficina.innerHTML = html
+    }
+
+  }
+
+
+  const oficinaMotivo = (e) => {
+
+let oficina = document.getElementById("motivo")
+let contenedorMotivo = document.getElementById("contenedorMotivo")
+let seleccionado = oficina.value
+
+if(seleccionado == "otros"){
+
+  let html = `
+  
+    <input required id="motivo" name="motivo" class="input" type="text" placeholder=" " />
+    <div class="cut cut-short" style="width: 60px;"></div>
+    <label for="motivo" class="placeholder">Motivo</label>
+  `
+  contenedorMotivo.innerHTML = html
+}
+
+}
+
+
+const cedulaBuscar = () => {
+
+  let cedula = document.getElementById("cedula")
+  let formCedula = document.getElementById("formCedula")
+  
+  fetch('http://localhost:3000/consultar/datos')
+  .then(response => response.json())
+  .then(data => {
+
+    let found = data.find(element => element.cedula == cedula.value);
+
+    if(found != undefined){
+
+      let nombre = document.getElementById("nombre")
+      let apellido = document.getElementById("apellido")
+      let oficina = document.getElementById("oficina")
+      let motivo = document.getElementById("motivo")
+
+      let arrayOpcionesOficina = [ "fomesalud", "IMAP", "neufrologos", "ncopetrol", "cenpost" ]
+      let arrayOpcionesMotivo = [ "terapia", "consulta", "domicilio" ]
+
+      let foundOficina = arrayOpcionesOficina.find(element => element == found.oficina);
+      let foundMotivo = arrayOpcionesMotivo.find(element => element == found.motivo);
+
+      if(foundOficina == undefined){
+
+        let html = `
+
+          <option value="${found.oficina}">${found.oficina}</option>
+        `
+        oficina.innerHTML += html
+      }
+
+      if(foundMotivo == undefined){
+
+        let html = `
+
+           <option value="${found.motivo}">${found.motivo}</option>
+         `
+        motivo.innerHTML += html
+      }
+
+      nombre.value = found.nombre
+      apellido.value = found.apellido
+      oficina.value = found.oficina
+      motivo.value = found.motivo
+    }
+
+  });
+}
+
+
+  setTimeout(() => {
+
+    if(document.querySelector(".propSucees")){
+
+      let ventana = document.querySelector(".propSucees")
+      ventana.style.display = "none"
+    }
+  }, 5000)
+
+
+
+</script>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+footer{
+  padding: 5px;
+    background-color: #15172b;
+    color: rgb(221, 216, 216);
+    font-family: monospace;
+    font-size: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.propSucees{
+  background: green;
+    padding: 20px;
+    width: 50%;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 10px;
+    text-align: center;
+    right: 10px;
+}
+.propSucees h4{
+  color: white;
+    font-size: 25px;
+    font-family: monospace;
+    text-align: center;
+}
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+body {
+    align-items: center;
+    background-color: #131420;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .form {
+    background-color: #15172b;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  
+  .title {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+
+  .sectionForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+  }
+  
+  .subtitle {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  
+  .input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .ic1 {
+    margin-top: 40px;
+  }
+  
+  .ic2 {
+    margin-top: 30px;
+  }
+  
+  .input {
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+  }
+  
+  .cut {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 76px;
+  }
+  
+  .cut-short {
+    width: 90px;
+  }
+  
+  .input:focus ~ .cut,
+  .input:not(:placeholder-shown) ~ .cut {
+    transform: translateY(8px);
+  }
+  
+  .placeholder {
+    color: #65657b;
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+  }
+  
+  .input:focus ~ .placeholder,
+  .input:not(:placeholder-shown) ~ .placeholder {
+    transform: translateY(-30px) translateX(10px) scale(0.75);
+  }
+  
+  .input:not(:placeholder-shown) ~ .placeholder {
+    color: #808097;
+  }
+  
+  .input:focus ~ .placeholder {
+    color: #dc2f55;
+  }
+  
+  .submit {
+    background-color: #08d;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .submit:active {
+    background-color: #06b;
+  }
+.titleAdd{
+    color: whitesmoke;
+    font-size: 25px;
+    text-align: center;
+    font-family: monospace;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+.navMenu{
+  width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    background: #15172b;
+}
+.navMenu a{
+  color: whitesmoke;
+  font-size: 20px;
+  text-decoration: none;
+  font-family: monospace;
+}
+
+.navMenu a:hover{
+  color: #edd14a;
+}
+
+@media (max-width: 370px) {
+    
+    .navMenu {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    background: #15172b;
+}
+}
+.contenedorForm {
+  width: 50%;
+}
+@media (max-width: 650px) {
+  .contenedorForm {
+  width: 90%;
+}
+}
+</style>
+</html>
