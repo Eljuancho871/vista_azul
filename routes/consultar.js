@@ -42,12 +42,12 @@ router.post("/", async(req, res) => {
 
         case "fechaIngreso":
             
-            data = await Model.find({ "fechaIngreso" : datoRecibido.toLowerCase() }).sort({$natural:-1})
+            data = await Model.find({ "fechaIngreso" : datoRecibido.toString() }).sort({$natural:-1})
             break;
 
         case "horaEntrada":
             
-            data = await Model.find({ "horaEntrada" : datoRecibido.toLowerCase() }).sort({$natural:-1})
+            data = await Model.find({ "horaEntrada" : datoRecibido.toString() }).sort({$natural:-1})
             break;
 
         default:
