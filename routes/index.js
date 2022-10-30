@@ -14,7 +14,7 @@ router.post("/add", async(req, res) => {
 
    const { nombre, apellido, cedula, oficina, motivo, fechaIngreso, horaEntrada, id } = req.body;
 
-   const user = new Model({ nombre: toString().nombre, apellido: toString().apellido, cedula, oficina: toString().oficina, motivo: toString().motivo, fechaIngreso, horaEntrada, id });
+   const user = new Model({ nombre: nombre.toLowerCase(), apellido: apellido.toLowerCase(), cedula, oficina: oficina.toLowerCase(), motivo: motivo.toLowerCase(), fechaIngreso, horaEntrada, id });
    await user.save();
   
    res.render("registrar", { exito: true })
